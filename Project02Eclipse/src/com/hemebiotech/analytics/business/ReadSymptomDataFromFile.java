@@ -1,4 +1,4 @@
-package com.hemebiotech.analytics;
+package com.hemebiotech.analytics.business;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,31 +7,64 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.hemebiotech.analytics.service.ISymptomReader;
+
 /**
+ * <ul>
+ * <li>implements ISymptomReader</li>
+ * <li>read the param input file</li>
+ * <li>write each line of the param input file into an ArrayList</li>
+ * <li>return the ArrayList</li>
+ * </ul>
  * 
- * Implements ISymptomReader interface
- *
  * @author SOUE
+ * 
+ * @see ISymptomReader
  *
  */
-public class ReadSymptomDataFromFile implements ISymptomReader {
-	private static Logger logger = null;
 
-	static {
+public class ReadSymptomDataFromFile implements ISymptomReader {
+
+	/**
+	 * Using a Logger to display the file lines beeing read
+	 */
+	private Logger logger = null;
+	{
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tF %1$tT] [%4$-7s] %5$s %n");
 		logger = Logger.getLogger(ReadSymptomDataFromFile.class.getName());
 	}
 
+	/**
+	 * 
+	
+	 */
 	private String filepath;
 
 	/**
 	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it,
+	 * Constructor
+	 * 
+	 * <ul>
+	 * <li>read the input file</li>
+	 * </ul>
+	 * 
+	 * @param filepath : A full or partial path to file with symptom strings in it,
 	 *                 one per line
 	 */
 	public ReadSymptomDataFromFile(String filepath) {
 		this.filepath = filepath;
 	}
+
+	/**
+	 * <ul>
+	 * <li>browse the input file, line by line</li>
+	 * <li>write each line of the input file into the ArrayList</li>
+	 * <li>return the ArrayList</li>
+	 * </ul>
+	 * 
+	 * @return and ArrayList of strings
+	 * 
+	 */
 
 	@Override
 	public ArrayList<String> getRawSymptoms() {

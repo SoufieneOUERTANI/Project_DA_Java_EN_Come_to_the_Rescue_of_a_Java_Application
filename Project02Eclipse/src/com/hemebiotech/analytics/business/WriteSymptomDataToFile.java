@@ -1,4 +1,4 @@
-package com.hemebiotech.analytics;
+package com.hemebiotech.analytics.business;
 
 import java.io.FileWriter;
 import java.util.Map;
@@ -6,17 +6,32 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.hemebiotech.analytics.service.ISymptomAgregate;
+import com.hemebiotech.analytics.service.ISymptomWriter;
+
 /**
- * Simple brute force implementation
- *
- */
-/**
+ * <ul>
+ * <li>implements ISymptomWriter</li>
+ * <li>read :
+ * <ul>
+ * <li>the param input HashMap of String/count</li>
+ * <li>the param output file</li>
+ * </ul>
+ * <li>browse the param HashMap and write it into the param output file</li>
+ * <li>return the HashMap</li>
+ * </ul>
+ * 
  * @author SOUE
+ * 
+ * @see ISymptomAgregate Intrface d'ecriture du fichier
  *
  */
 public class WriteSymptomDataToFile implements ISymptomWriter {
-	private static Logger logger = null;
 
+	/**
+	 * Using a Logger to display the file lines beeing read
+	 */
+	private static Logger logger = null;
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tF %1$tT] [%4$-7s] %5$s %n");
 		logger = Logger.getLogger(WriteSymptomDataToFile.class.getName());
@@ -27,14 +42,29 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 
 	/**
 	 * 
-	 * @param filepath     a full or partial path to file with symptom strings in
-	 *                     it, one per line
-	 * @param symptomsList
+	 * Constructor
+	 * 
+	 * <ul>
+	 * <li>read :
+	 * <ul>
+	 * <li>the param input HashMap of String/count</li>
+	 * <li>the param output file</li>
+	 * </ul>
+	 * </ul>
+	 * 
+	 * @param filepath     Output file
+	 * @param symptomsList Map of String/count
 	 */
 	public WriteSymptomDataToFile(String filepath, Map<String, Integer> symptomsList) {
 		this.filepath = filepath;
 		this.symptomsList = symptomsList;
 	}
+
+	/**
+	 *
+	 * browse the Map and write it into the output file
+	 * 
+	 */
 
 	@Override
 	public void setSymptoms() throws Exception {

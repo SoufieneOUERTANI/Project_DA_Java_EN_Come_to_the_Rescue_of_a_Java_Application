@@ -3,6 +3,13 @@ package com.hemebiotech.analytics;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.hemebiotech.analytics.business.AgregateSymptom;
+import com.hemebiotech.analytics.business.ReadSymptomDataFromFile;
+import com.hemebiotech.analytics.business.WriteSymptomDataToFile;
+import com.hemebiotech.analytics.service.ISymptomAgregate;
+import com.hemebiotech.analytics.service.ISymptomReader;
+import com.hemebiotech.analytics.service.ISymptomWriter;
+
 /**
  * * <u><b>Program input</b></u> : "symptoms.txt" <u><b>program ouput</b></u> :
  * "result.out"<br>
@@ -45,32 +52,28 @@ import java.util.Map;
 public class AnalyticsCounter {
 
 	/**
-	 * <b>Main fonction</b> og the program : <br>
-	 * 1- Read the file symptoms.txt by the class <b>ReadSymptomDataFromFile</b><br>
-	 * 2- <b>readSymptomDataFromFile.GetSymptoms()</b> return a Map of list of the
-	 * symptoms<br>
-	 * 3- Read the raw list of symptoms by the class
-	 * <b>WriteSymptomDataToFile</b><br>
-	 * 4- <b>writeSymptomDataToFile.SetSymptoms()</b> agregates the symptoms and
-	 * write in the output file<br>
+	 * <ul>
+	 * <li>Read the input file symptoms.txt into an ArrayList</li>
+	 * <li>Agregate the ArrayList into a HashMap, so that there will be one line per
+	 * symptom/count</li>
+	 * <li>Write the agregate HashMap into the output file</li>
+	 * </ul>
 	 * 
-	 * @param args
-	 * @throws Exception
+	 * @param args without param
+	 * 
+	 * @throws Exception To read the input file and to write the output file
+	 * 
 	 */
 	public static void main(String args[]) throws Exception {
-		/**
-		 * 
-		 */
+		// Read the input file and return an ArrayList
 		ISymptomReader symptomReader = new ReadSymptomDataFromFile("Project02Eclipse/symptoms.txt");
 		ArrayList<String> rawSymptomsList = symptomReader.getRawSymptoms();
-		/**
-		 * 
-		 */
+
+		// Read the input ArrayList and return a Map
 		ISymptomAgregate symptomAgregate = new AgregateSymptom(rawSymptomsList);
 		Map<String, Integer> agregateSymptomsList = symptomAgregate.agregateSymptoms();
-		/**
-		 * 
-		 */
+
+		// Read the Map and write it into the output file
 		ISymptomWriter symptomWriter = new WriteSymptomDataToFile("Project02Eclipse/result.out", agregateSymptomsList);
 		symptomWriter.setSymptoms();
 	}
