@@ -2,13 +2,16 @@ package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Simple brute force implementation
+ * 
+ * Implements ISymptomReader interface
+ *
+ * @author SOUE
  *
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
@@ -31,20 +34,26 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	}
 
 	@Override
-	public Map<String, Integer> GetSymptoms() throws Exception {
-		Map<String, Integer> result = new HashMap<String, Integer>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
-			String line = reader.readLine();
-			logger.log(Level.INFO, "\n" + "Lecture du ficher des symptomes: " + "\n");
-			while (line != null) {
-				logger.log(Level.INFO, "symptom from file: " + line);
-				if (result.get(line) != null)
-					result.put(line, result.get(line) + 1);
-				else
-					result.put(line, 1);
-				line = reader.readLine(); // get another symptom
+	public ArrayList<String> getRawSymptoms() {
+		ArrayList<String> result = new ArrayList<String>();
+
+		if (filepath != null) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(filepath));
+				String line = reader.readLine();
+				logger.log(Level.INFO, "\n\nListe des symptomes: \n");
+				logger.log(Level.INFO, "\n");
+				while (line != null) {
+					logger.log(Level.INFO, "symptom from file: " + line);
+					result.add(line);
+					line = reader.readLine();
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
+
 		return result;
 	}
 }

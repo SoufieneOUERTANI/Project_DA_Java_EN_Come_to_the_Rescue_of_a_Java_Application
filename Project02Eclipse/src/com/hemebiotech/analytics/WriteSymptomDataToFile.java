@@ -10,6 +10,10 @@ import java.util.logging.Logger;
  * Simple brute force implementation
  *
  */
+/**
+ * @author SOUE
+ *
+ */
 public class WriteSymptomDataToFile implements ISymptomWriter {
 	private static Logger logger = null;
 
@@ -33,10 +37,11 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 	}
 
 	@Override
-	public void SetSymptoms() throws Exception {
+	public void setSymptoms() throws Exception {
 		try (FileWriter writer = new FileWriter(filepath)) {
 			if (!symptomsList.isEmpty()) {
-				logger.log(Level.INFO, "\n" + "Synthèse des symptomes : " + "\n");
+				logger.log(Level.INFO, "\n\nSynthèse des symptomes: \n");
+				logger.log(Level.INFO, "\n");
 				for (Entry<String, Integer> entry : symptomsList.entrySet()) {
 					writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
 					logger.log(Level.INFO, entry.getKey() + ": " + entry.getValue());

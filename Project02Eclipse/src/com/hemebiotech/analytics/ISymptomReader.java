@@ -1,11 +1,9 @@
 package com.hemebiotech.analytics;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
- * Anything that will read symptom data from a source The important part is, the
- * return value from the operation, which is a list of strings, that may contain
- * many duplications
+ * Interface , returning a list of strings, that may contain many duplications
  * 
  * The implementation does not need to order the list
  * 
@@ -18,5 +16,5 @@ public interface ISymptomReader {
 	 *         are possible/probable
 	 * @throws Exception
 	 */
-	Map<String, Integer> GetSymptoms() throws Exception;
+	ArrayList<String> getRawSymptoms();
 }
