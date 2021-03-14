@@ -73,16 +73,17 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 		if (filepath != null) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(filepath));
-				String line = reader.readLine();
 				logger.log(Level.INFO, "\n\nListe des symptomes: \n");
 				logger.log(Level.INFO, "\n");
+				String line = reader.readLine();
 				while (line != null) {
 					logger.log(Level.INFO, "symptom from file: " + line);
-					result.add(line);
+					result.add(line.toLowerCase());
 					line = reader.readLine();
 				}
 				reader.close();
 			} catch (IOException e) {
+				// SOUE : Logger(leverl.error)
 				e.printStackTrace();
 			}
 		}

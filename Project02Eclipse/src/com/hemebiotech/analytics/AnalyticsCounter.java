@@ -65,16 +65,21 @@ public class AnalyticsCounter {
 	 * 
 	 */
 	public static void main(String args[]) throws Exception {
-		// Read the input file and return an ArrayList
-		ISymptomReader symptomReader = new ReadSymptomDataFromFile("Project02Eclipse/symptoms.txt");
-		ArrayList<String> rawSymptomsList = symptomReader.getRawSymptoms();
+		ArrayList<String> rawSymptomsList = loadSymptomFileProcess();
 
-		// Read the input ArrayList and return a Map
 		ISymptomAgregate symptomAgregate = new AgregateSymptom(rawSymptomsList);
 		Map<String, Integer> agregateSymptomsList = symptomAgregate.agregateSymptoms();
 
-		// Read the Map and write it into the output file
+		// Sort the HashMap
+
 		ISymptomWriter symptomWriter = new WriteSymptomDataToFile("Project02Eclipse/result.out", agregateSymptomsList);
 		symptomWriter.setSymptoms();
+	}
+
+	// Commentraires ! // Effaceer le fichier de sortie dabaord
+	private static ArrayList<String> loadSymptomFileProcess() {
+		ISymptomReader symptomReader = new ReadSymptomDataFromFile("Project02Eclipse/symptoms.txt");
+		ArrayList<String> rawSymptomsList = symptomReader.getRawSymptoms();
+		return rawSymptomsList;
 	}
 }

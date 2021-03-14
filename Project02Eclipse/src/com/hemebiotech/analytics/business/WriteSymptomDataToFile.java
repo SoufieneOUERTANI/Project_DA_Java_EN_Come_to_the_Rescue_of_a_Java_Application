@@ -1,8 +1,9 @@
 package com.hemebiotech.analytics.business;
 
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,14 +71,18 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 	public void setSymptoms() throws Exception {
 		try (FileWriter writer = new FileWriter(filepath)) {
 			if (!symptomsList.isEmpty()) {
+
 				logger.log(Level.INFO, "\n\nSynthèse des symptomes: \n");
 				logger.log(Level.INFO, "\n");
-				for (Entry<String, Integer> entry : symptomsList.entrySet()) {
-					writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
-					logger.log(Level.INFO, entry.getKey() + ": " + entry.getValue());
+				ArrayList<String> sortKeys = new ArrayList<String>(symptomsList.keySet());
+				Collections.sort(sortKeys);
+
+				for (String symptom : sortKeys) {
+					writer.write(symptom + ": " + symptomsList.get(symptom) + "\n");
+					logger.log(Level.INFO, symptom + ": " + symptomsList.get(symptom));
 				}
 			} else
-				logger.log(Level.INFO, "/n" + "La synthèse est vide !");
+				logger.log(Level.WARNING, "/n" + "Le fichier en entrée est vide !");
 		}
 	}
 }
