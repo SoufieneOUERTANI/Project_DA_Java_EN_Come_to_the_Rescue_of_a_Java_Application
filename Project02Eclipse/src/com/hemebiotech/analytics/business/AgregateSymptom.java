@@ -3,6 +3,8 @@ package com.hemebiotech.analytics.business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hemebiotech.analytics.service.ISymptomAgregate;
 
@@ -22,6 +24,15 @@ import com.hemebiotech.analytics.service.ISymptomAgregate;
  */
 public class AgregateSymptom implements ISymptomAgregate {
 	private ArrayList<String> rawSymptomsList;
+
+	/**
+	 * Using a Logger to display the file lines beeing read
+	 */
+	private Logger logger = null;
+	{
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tF %1$tT] [%4$-7s] %5$s %n");
+		logger = Logger.getLogger(AgregateSymptom.class.getName());
+	}
 
 	/**
 	 * 
@@ -49,14 +60,15 @@ public class AgregateSymptom implements ISymptomAgregate {
 	 */
 	@Override
 	public Map<String, Integer> agregateSymptoms() {
-		Map<String, Integer> result = new HashMap<String, Integer>();
+		Map<String, Integer> agregateSymptomsList = new HashMap<String, Integer>();
+		logger.log(Level.INFO, "\nAgrérer la liste de symptomes par symptome :\n");
 		for (String mySymptom : rawSymptomsList) {
-			if (result.get(mySymptom) != null)
-				result.put(mySymptom, result.get(mySymptom) + 1);
+			if (agregateSymptomsList.get(mySymptom) != null)
+				agregateSymptomsList.put(mySymptom, agregateSymptomsList.get(mySymptom) + 1);
 			else
-				result.put(mySymptom, 1);
+				agregateSymptomsList.put(mySymptom, 1);
 		}
-		return result;
+		return agregateSymptomsList;
 	}
 
 }

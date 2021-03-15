@@ -1,6 +1,7 @@
 package com.hemebiotech.analytics.business;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -24,7 +25,7 @@ import com.hemebiotech.analytics.service.ISymptomWriter;
  * 
  * @author SOUE
  * 
- * @see ISymptomAgregate Intrface d'ecriture du fichier
+ * @see ISymptomAgregate
  *
  */
 public class WriteSymptomDataToFile implements ISymptomWriter {
@@ -68,21 +69,24 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 	 */
 
 	@Override
-	public void setSymptoms() throws Exception {
+	public void setSymptoms() {
 		try (FileWriter writer = new FileWriter(filepath)) {
 			if (!symptomsList.isEmpty()) {
 
-				logger.log(Level.INFO, "\n\nSynthèse des symptomes: \n");
-				logger.log(Level.INFO, "\n");
+				logger.log(Level.INFO, "\nEcriture des symptomes dans le fichier : " + filepath + "\n");
 				ArrayList<String> sortKeys = new ArrayList<String>(symptomsList.keySet());
 				Collections.sort(sortKeys);
 
 				for (String symptom : sortKeys) {
 					writer.write(symptom + ": " + symptomsList.get(symptom) + "\n");
-					logger.log(Level.INFO, symptom + ": " + symptomsList.get(symptom));
+					logger.log(Level.FINEST, symptom + ": " + symptomsList.get(symptom));
 				}
 			} else
-				logger.log(Level.WARNING, "/n" + "Le fichier en entrée est vide !");
+				logger.log(Level.WARNING, "\n" + "La liste des symptmes est vide !");
+
+		} catch (IOException e) {
+			// SOUE : Logger(leverl.error)
+			e.printStackTrace();
 		}
 	}
 }

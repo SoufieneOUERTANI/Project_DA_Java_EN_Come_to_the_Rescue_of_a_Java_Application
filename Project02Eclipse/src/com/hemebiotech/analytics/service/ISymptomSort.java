@@ -1,5 +1,7 @@
 package com.hemebiotech.analytics.service;
 
+import java.util.Map;
+
 /**
  * 
  * Interface, writing the input Symptoms into a file
@@ -8,15 +10,15 @@ package com.hemebiotech.analytics.service;
  * 
  */
 
-public interface ISymptomWriter {
+public interface ISymptomSort {
 
 	/**
 	 * 
 	 * writing the input Symptoms into a file
 	 * 
-	 * @throws Exception to write the output file
+	 * @return
 	 * 
 	 */
-	void setSymptoms();
+	Map<String, Integer> sortSymptoms();
 
 }

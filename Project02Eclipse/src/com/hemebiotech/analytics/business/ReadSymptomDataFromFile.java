@@ -36,9 +36,10 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 
 	/**
 	 * 
-	
+	 * The input file
+	 * 
 	 */
-	private String filepath;
+	private String inputFile;
 
 	/**
 	 * 
@@ -48,11 +49,11 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	 * <li>read the input file</li>
 	 * </ul>
 	 * 
-	 * @param filepath : A full or partial path to file with symptom strings in it,
-	 *                 one per line
+	 * @param inputFile : A full or partial path to file with symptom strings in it,
+	 *                  one per line
 	 */
-	public ReadSymptomDataFromFile(String filepath) {
-		this.filepath = filepath;
+	public ReadSymptomDataFromFile(String inputFile) {
+		this.inputFile = inputFile;
 	}
 
 	/**
@@ -68,26 +69,23 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 
 	@Override
 	public ArrayList<String> getRawSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
-
-		if (filepath != null) {
+		ArrayList<String> rawSymptomsList = new ArrayList<String>();
+		if (inputFile != null) {
 			try {
-				BufferedReader reader = new BufferedReader(new FileReader(filepath));
-				logger.log(Level.INFO, "\n\nListe des symptomes: \n");
-				logger.log(Level.INFO, "\n");
+				BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+				logger.log(Level.INFO, "\nLecture des symptomes à partir du fichier: " + inputFile + "\n");
 				String line = reader.readLine();
 				while (line != null) {
-					logger.log(Level.INFO, "symptom from file: " + line);
-					result.add(line.toLowerCase());
+					logger.log(Level.FINEST, "symptom from file: " + line);
+					rawSymptomsList.add(line.toLowerCase());
 					line = reader.readLine();
 				}
 				reader.close();
 			} catch (IOException e) {
-				// SOUE : Logger(leverl.error)
+				logger.log(Level.SEVERE, "Erreur lecture fichier : " + inputFile);
 				e.printStackTrace();
 			}
 		}
-
-		return result;
+		return rawSymptomsList;
 	}
 }
