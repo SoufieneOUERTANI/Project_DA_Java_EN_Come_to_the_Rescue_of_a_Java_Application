@@ -2,8 +2,6 @@ package com.hemebiotech.analytics;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.hemebiotech.analytics.business.AgregateSymptom;
 import com.hemebiotech.analytics.business.ReadSymptomDataFromFile;
@@ -74,38 +72,17 @@ public class AnalyticsCounter {
 	 */
 	public static void main(String args[]) throws Exception {
 
-		Logger logger = initLogger();
-
 		String inputFile = "Project02Eclipse/symptoms.txt";
 		String outputFile = "Project02Eclipse/result.out";
 
 		ArrayList<String> rawSymptomsList = loadSymptomsInputFile(inputFile);
 
-		if (!rawSymptomsList.isEmpty()) {
+		Map<String, Integer> agregatedSymptomsList = countPerSymptom(rawSymptomsList);
 
-			Map<String, Integer> agregatedSymptomsList = countPerSymptom(rawSymptomsList);
+		Map<String, Integer> sortedagregatedSymptomsList = sortBySymptom(agregatedSymptomsList);
 
-			Map<String, Integer> sortedagregatedSymptomsList = sortBySymptom(agregatedSymptomsList);
+		writeOutputFile(sortedagregatedSymptomsList, outputFile);
 
-			writeOutputFile(sortedagregatedSymptomsList, outputFile);
-		} else {
-			logger.log(Level.WARNING, "Le fichier en entrée " + inputFile + " est vide");
-		}
-	}
-
-	/**
-	 * 
-	 * Init the logger's display format
-	 * 
-	 * @return a logger
-	 */
-	private static Logger initLogger() {
-		Logger logger = null;
-		{
-			System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tF %1$tT] [%4$-7s] %5$s %n");
-			logger = Logger.getLogger(AnalyticsCounter.class.getName());
-		}
-		return logger;
 	}
 
 	/**
